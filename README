@@ -38,6 +38,21 @@ On the system vps.example.com, you can now run dnsseed:
 If you want the DNS server to report SOA records, please provide an
 e-mail address (with the @ part replaced by .) using -m.
 
+ADDITIONAL SETUP
+________________
+The seeders periodically scan for two files "nodes4.txt" (ipv4); "nodes6.txt" (ipv6). (Plain text files with one ip per line - no port numbering)
+If these files are present, the seeders will use these as an additional source of IPs to feed into the crawler, this can help get better network coverage.
+
+For best seeder performance, it is advised to acquire an external source that can provide such a list of IPs and then use a cronjob to have it periodically place new versions of the lists in these files.
+
+Example of command to run for a node running on the same machine as the seed:
+
+growersd \
+  getpeerinfo | grep addr | grep -v addrlocal | grep 11667 | sed -E "s/ +\"addr\" : \"//g" | sed -E "s/:11667\",?//g" \
+  > seeder/nodes4.txt
+
+That, assuming that the seeder is located into the seeder directory straight in the growersd path.
+
 COMPILING
 ---------
 Compiling will require boost and ssl.  On debian systems, these are provided
