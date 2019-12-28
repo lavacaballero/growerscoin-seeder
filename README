@@ -48,8 +48,9 @@ For best seeder performance, it is advised to acquire an external source that ca
 Example of command to run for a node running on the same machine as the seed:
 
 growersd \
-  getpeerinfo | grep addr | grep -v addrlocal | grep 11667 | sed -E "s/ +\"addr\" : \"//g" | sed -E "s/:11667\",?//g" \
-  > seeder/nodes4.txt
+  getpeerinfo | grep addr | grep -v addrlocal | grep 11667 | \
+    sed -E "s/ +\"addr\" : \"//g" | sed -E "s/:11667\",?//g" | grep -v ":" \
+      > seeder/nodes4.txt
 
 That, assuming that the seeder is located into the seeder directory straight in the growersd path.
 
